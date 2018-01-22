@@ -24,6 +24,9 @@ export NESTED=true
 mkdir -p $GOPATH/bin
 
 build_runc "$grreleasedevelopdir"
+if [ "$1" == "edgecase" ]; then
+  build_misbehaving_runc "$grreleasedevelopdir"
+fi
 build_nstar "$grreleasedevelopdir"
 build_grootfs "$grreleasedevelopdir"
 build_gdn "$grreleasedevelopdir"

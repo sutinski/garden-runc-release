@@ -1,0 +1,24 @@
+diff --git a/libcontainer/standard_init_linux.go b/libcontainer/standard_init_linux.go
+index 8a544ed5..84cd8765 100644
+--- a/libcontainer/standard_init_linux.go
++++ b/libcontainer/standard_init_linux.go
+@@ -6,7 +6,9 @@ import (
+ 	"fmt"
+ 	"os"
+ 	"os/exec"
++	"strings"
+ 	"syscall" //only for Exec
++	"time"
+ 
+ 	"github.com/opencontainers/runc/libcontainer/apparmor"
+ 	"github.com/opencontainers/runc/libcontainer/configs"
+@@ -169,6 +171,9 @@ func (l *linuxStandardInit) Init() error {
+ 	// user process. We open it through /proc/self/fd/$fd, because the fd that
+ 	// was given to us was an O_PATH fd to the fifo itself. Linux allows us to
+ 	// re-open an O_PATH fd through /proc.
++	if !strings.Contains(name, "init") {
++		time.Sleep(time.Hour)
++	}
+ 	fd, err := unix.Open(fmt.Sprintf("/proc/self/fd/%d", l.fifoFd), unix.O_WRONLY|unix.O_CLOEXEC, 0)
+ 	if err != nil {
+ 		return newSystemErrorWithCause(err, "open exec fifo")

@@ -7,6 +7,18 @@ build_runc() {
   popd
 }
 
+build_misbehaving_runc() {
+  local grreleasedevelopdir="$1"
+  local patchfile="$grreleasedevelopdir/ci/scripts/sleep-before-open-exec-fifo.patch"
+
+  pushd "$grreleasedevelopdir"/src/github.com/opencontainers/runc
+    cp $patchfile .
+    patch libcontainer/standard_init_linux.go < sleep-before-open-exec-fifo.patch
+    GOPATH=$PWD/Godeps/_workspace:$GOPATH go build -tags "seccomp" -o runc .
+    mv runc "$GOPATH"/bin/
+  popd
+}
+
 build_nstar() {
   local grreleasedevelopdir="$1"
 
