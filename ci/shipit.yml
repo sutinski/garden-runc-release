@@ -19,5 +19,8 @@ outputs:
   - name: github-release
   - name: release
 
+params:
+  DRY_RUN: "true"
+
 run:
   path: gr-release-develop/ci/scripts/shipit

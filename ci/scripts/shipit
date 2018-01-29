@@ -1,41 +1,57 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # vim: set ft=sh
 
 set -exuo pipefail
 
-base=$PWD
+DIR="$PWD"
+GARDEN_VERSION="$( cat "${DIR}/gr-version/number" )"
+# CANDIDATE_DIR="${DIR}/gr-candidate-tarball"
+RELEASE_YML="${DIR}/gr-release-develop/releases/garden-runc/garden-runc-${GARDEN_VERSION}.yml"
+FINAL_TARBALL_PATH="${DIR}/final-release/garden-runc-${GARDEN_VERSION}.tgz"
+DRY_RUN="${DRY_RUN:-true}"
 
-GARDEN_VERSION=$(cat "$base"/gr-version/number)
+function configure_git() {
+  git config --global user.email "ci@localhost"
+  git config --global user.name "CI Bot"
+}
+
+function configure_blobstore_credentials() {
+  cp "${DIR}/garden-ci/config/private.yml" "${DIR}/gr-release-develop/config/private.yml"
+}
+
+# function commit_final_release() {
+#   git add -A
+#   git commit -m "release v${GARDEN_VERSION}"
+# }
+
+function finalize_release() {
+  if [ "$DRY_RUN" != "false" ]; then return; fi
+
+  echo "finalizing release"
+  # bosh -n finalize-release --dir="${DIR}/gr-release-develop" --sha2 --version "$GARDEN_VERSION" "${CANDIDATE_DIR}/garden-runc-*.tgz"
+  # mv "${CANDIDATE_DIR}"/garden-runc-*.tgz "$(dirname "$FINAL_TARBALL_PATH")"
+}
+
+function create_final_release() {
+  if [ -e "$RELEASE_YML" ]; then
+    echo "release already created; making tarball..."
+    bosh -n create-release --dir="${DIR}/gr-release-develop" --sha2 --tarball="$FINAL_TARBALL_PATH" "$RELEASE_YML"
+  else
+    finalize_release
+  fi
+
+  # cp -r "${DIR}/gr-release/develop" "${DIR}/release/master"
+}
+
 if [ -z "${GARDEN_VERSION:-}" ]; then
-  echo "missing garden version number"
+  echo "missing garden version number" 1>&2
   exit 1
 fi
 
-cp "$base"/garden-ci/config/private.yml "$base"/gr-release-develop/config/private.yml
+configure_blobstore_credentials
+configure_git
+create_final_release
+exit 1
 
-CANDIDATE_DIR=$base/gr-candidate-tarball
-
-(
-cd gr-release-develop
-git config --global user.email "ci@localhost"
-git config --global user.name "CI Bot"
-
-RELEASE_YML=$PWD/releases/garden-runc/garden-runc-${GARDEN_VERSION}.yml
-tarball_path="$base/final-release/garden-runc-${GARDEN_VERSION}.tgz"
-
-if [ -e "$RELEASE_YML" ]; then
-  echo "release already created; making tarball..."
-  bosh -n create-release --sha2 --tarball="$tarball_path" "$RELEASE_YML"
-else
-  echo "finalizing release"
-  bosh -n finalize-release --sha2 --version "$GARDEN_VERSION" "${CANDIDATE_DIR}"/garden-runc-*.tgz
-  mv "${CANDIDATE_DIR}"/garden-runc-*.tgz "$(dirname "$tarball_path")"
-  git add -A
-  git commit -m "release v${GARDEN_VERSION}"
-fi
-
-cp -r . ../release/master
-)
-
-# prepare github release
-mv gdn-linux-release/gdn "github-release/gdn-${GARDEN_VERSION}"
+# # prepare github release
+# mv gdn-linux-release/gdn "github-release/gdn-${GARDEN_VERSION}"
