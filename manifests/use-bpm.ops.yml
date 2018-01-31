@@ -1,0 +1,13 @@
+- type: replace
+  path: /releases/-
+  value:
+    name: bpm
+    version: latest
+    # url: https://bosh.io/d/github.com/cloudfoundry-incubator/bpm-release
+    # sha1: f2bd126b17b3591160f501d88d79ccf0aba1ae54
+
+- type: replace
+  path: /instance_groups/name=garden/jobs/-
+  value:
+    name: bpm
+    release: bpm

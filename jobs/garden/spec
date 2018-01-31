@@ -3,6 +3,7 @@ name: garden
 
 templates:
   bin/garden_start.erb:                     bin/garden_start
+  bin/garden_pre_start.erb:                 bin/garden_pre_start
   bin/garden_stop.erb:                      bin/garden_stop
   bin/envs.erb:                             bin/envs
   config/garden-default.erb:                config/garden-default
@@ -10,6 +11,7 @@ templates:
   bin/btrfs-setup.erb:                      bin/btrfs-setup
   bin/overlay-xfs-setup.erb:                bin/overlay-xfs-setup
   bin/grootfs-utils.erb:                    bin/grootfs-utils
+  config/bpm.yml.erb:                       config/bpm.yml
   config/grootfs_config.yml.erb:            config/grootfs_config.yml
   config/privileged_grootfs_config.yml.erb: config/privileged_grootfs_config.yml
   certs/remote-layer.crt.erb:               certs/remote-layer.crt

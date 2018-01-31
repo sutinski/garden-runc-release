@@ -1,22 +1,30 @@
 #!/usr/bin/env bash
 
+
 export BASE_PATH=$(dirname $0)
-export RUN_DIR=/var/vcap/sys/run/garden
-export LOG_DIR=/var/vcap/sys/log/garden
-export PIDFILE="${RUN_DIR}/garden.pid"
-export DATA_DIR=/var/vcap/data
+
+root=${ROOT:-}
+
+export RUN_DIR=${root}/var/vcap/sys/run/garden
+export LOG_DIR=${root}/var/vcap/sys/log/garden
+export PIDFILE="${root}${RUN_DIR}/garden.pid"
+export DATA_DIR=${root}/var/vcap/data
+
 export GARDEN_DIR=/var/vcap/data/garden
 export GARDEN_CONFIG_DIR=/var/vcap/jobs/garden/config
-export MONIT_DIR=/var/vcap/sys/log/monit
-export DEPOT_PATH="${GARDEN_DIR}/depot"
-export RUNTIME_BIN_DIR="${GARDEN_DIR}/bin"
-export GRAPH_PATH="${GARDEN_DIR}/graph"
-export TMPDIR=/var/vcap/data/tmp
+
+<%# export MONIT_DIR=/var/vcap/sys/log/monit %>
+export DEPOT_PATH="${root}${GARDEN_DIR}/depot"
+export RUNTIME_BIN_DIR="${root}${GARDEN_DIR}/bin"
+export GRAPH_PATH="${root}${GARDEN_DIR}/graph"
+export TMPDIR=${root}/var/vcap/data/tmp
+
 export PATH="/var/vcap/packages/guardian/bin:${PATH}"
 export PATH="/var/vcap/packages/iptables/sbin:${PATH}"
 export PATH="/var/vcap/packages/garden-idmapper/bin:${PATH}"
 export PATH="/var/vcap/jobs/garden/bin:${PATH}"
-export MAXIMUS=$(maximus)
+<%# export MAXIMUS=$(maximus) %>
+export MAXIMUS=1000
 
 <% if_p('garden.http_proxy') do |http_proxy| %>
 export HTTP_PROXY='<%= http_proxy %>'

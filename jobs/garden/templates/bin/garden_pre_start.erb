@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+set -ex
+
+export ROOT=/var/vcap/data/bpm/bundles/garden/garden/rootfs
+
+source /var/vcap/jobs/garden/bin/envs
+source /var/vcap/packages/greenskeeper/bin/system-preparation
+
+/var/vcap/packages/greenskeeper/bin/greenskeeper
+
+rm -f "$RUNTIME_BIN_DIR"/init
+cp /var/vcap/packages/guardian/bin/init "$RUNTIME_BIN_DIR"/init
+
+permit_device_control
+create_loop_devices 256
+
+<% if !p("garden.deprecated_use_garden_shed") && p("garden.image_plugin", "") == "" %>
+${BASE_PATH}/<%= p("grootfs.driver") %>-setup
+<% end %>
+
+<% if p("garden.apparmor_profile") == "garden-default" %>
+  load_apparmor_profile "$GARDEN_CONFIG_DIR"/garden-default
+<% end %>
+
+if ! echo madvise > /sys/kernel/mm/transparent_hugepage/enabled ; then
+  echo "Could not disable automatic transparent hugepage allocation. This is normal in bosh lite."
+fi
+
+echo 1 > /proc/sys/kernel/dmesg_restrict
+
+
+ulimit -n 65536
+echo 4194304 > /proc/sys/kernel/pid_max
+ulimit -u unlimited
+
+groot_config_dir="$GARDEN_CONFIG_DIR"
+setup_cmd="/var/vcap/packages/guardian/bin/gdn setup"
+<% if p("garden.experimental_rootless_mode") %>
+  setup_cmd="$setup_cmd --rootless-uid $MAXIMUS --rootless-gid $MAXIMUS"
+
+  # runc makes use of the XDG_RUNTIME_DIR env var in order to determine
+  # where to place the runc root dir in rootless mode.
+  # Given that this is not set on stemcells we choose to set it explicitely
+  # here.
+  export XDG_RUNTIME_DIR=/var/run/user/$MAXIMUS
+  export TMPDIR=$TMPDIR/user/$MAXIMUS/tmp
+
+  mkdir -p $XDG_RUNTIME_DIR $TMPDIR
+  chmod 700 $XDG_RUNTIME_DIR
+  chown "$MAXIMUS:$MAXIMUS" $LOG_DIR $TMPDIR $DEPOT_PATH $XDG_RUNTIME_DIR
+
+  groot_config_dir="$GARDEN_DIR/config"
+  mkdir -p $groot_config_dir
+  chown $MAXIMUS:$MAXIMUS $groot_config_dir
+  cp "$GARDEN_CONFIG_DIR/grootfs_config.yml" $groot_config_dir
+  chmod o+r $groot_config_dir/grootfs_config.yml
+<% end %>
+
+$setup_cmd
+
