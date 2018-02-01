@@ -1,0 +1,3 @@
+alias runc="/var/vcap/packages/bpm/bin/runc --root /var/vcap/data/bpm/runc/"
+alias sortshitout="monit stop garden && cp /var/vcap/packages/runc/bin/runc /var/vcap/packages/bpm/bin/"
+alias watchmonit="watch -n1 monit summary"

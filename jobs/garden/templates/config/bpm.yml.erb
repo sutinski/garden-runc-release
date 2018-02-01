@@ -1,0 +1,16 @@
+processes:
+  - name: garden
+    executable: /var/vcap/jobs/garden/bin/garden_start
+    additional_volumes:
+    - path: /var/vcap/data/garden/depot
+      writable: true
+    - path: /var/vcap/data/garden/runc
+      writable: true
+    - path: /var/vcap/data/garden/config
+      writable: false
+    - path: /var/vcap/data/grootfs/store/privileged
+      writable: true
+    - path: /var/vcap/data/grootfs/store/unprivileged
+      writable: true
+    hooks:
+      pre_start: /var/vcap/jobs/garden/bin/garden-bpm-pre-start

@@ -10,14 +10,16 @@ templates:
   bin/btrfs-setup.erb:                      bin/btrfs-setup
   bin/overlay-xfs-setup.erb:                bin/overlay-xfs-setup
   bin/grootfs-utils.erb:                    bin/grootfs-utils
+  bin/garden-bpm-pre-start:                 bin/garden-bpm-pre-start
   config/grootfs_config.yml.erb:            config/grootfs_config.yml
   config/privileged_grootfs_config.yml.erb: config/privileged_grootfs_config.yml
   certs/remote-layer.crt.erb:               certs/remote-layer.crt
   certs/remote-layer.cert.erb:              certs/remote-layer.cert
   certs/remote-layer.key.erb:               certs/remote-layer.key
-
+  config/bpm.yml.erb:                       config/bpm.yml
 
 packages:
+  - apparmor
   - guardian
   - iptables
   - runc
