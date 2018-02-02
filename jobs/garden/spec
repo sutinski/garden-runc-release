@@ -15,9 +15,12 @@ templates:
   certs/remote-layer.crt.erb:               certs/remote-layer.crt
   certs/remote-layer.cert.erb:              certs/remote-layer.cert
   certs/remote-layer.key.erb:               certs/remote-layer.key
+  config/bpm.yml.erb:                       config/bpm.yml
+  bin/pre-start-hook:                       bin/pre-start-hook
 
 
 packages:
+  - apparmor
   - guardian
   - iptables
   - runc

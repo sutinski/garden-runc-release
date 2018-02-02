@@ -1,0 +1,5 @@
+processes:
+  - name: garden
+    executable: /var/vcap/jobs/garden/bin/garden_start
+    hooks:
+      pre_start: /var/vcap/jobs/garden/bin/pre-start-hook

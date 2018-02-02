@@ -5,10 +5,6 @@ set -e
 source /var/vcap/jobs/garden/bin/envs
 source /var/vcap/packages/greenskeeper/bin/system-preparation
 
-mkdir -p "$MONIT_DIR"
-exec 1>> "${MONIT_DIR}/garden.out.log"
-exec 2>> "${MONIT_DIR}/garden.err.log"
-
 /var/vcap/packages/greenskeeper/bin/greenskeeper
 
 rm -f "$RUNTIME_BIN_DIR"/init
@@ -24,19 +20,6 @@ ${BASE_PATH}/<%= p("grootfs.driver") %>-setup
 <% if p("garden.apparmor_profile") == "garden-default" %>
   load_apparmor_profile "$GARDEN_CONFIG_DIR"/garden-default
 <% end %>
-
-if ! echo madvise > /sys/kernel/mm/transparent_hugepage/enabled ; then
-  echo "Could not disable automatic transparent hugepage allocation. This is normal in bosh lite."
-fi
-
-echo 1 > /proc/sys/kernel/dmesg_restrict
-
-ulimit -n 65536
-echo 4194304 > /proc/sys/kernel/pid_max
-ulimit -u unlimited
-
-exec 1> >( tee -a $LOG_DIR/garden.stdout.log | logger -p user.info -t vcap.garden ) \
-     2> >( tee -a $LOG_DIR/garden.stderr.log | logger -p user.error -t vcap.garden )
 
 groot_config_dir="$GARDEN_CONFIG_DIR"
 exec_command="exec"
@@ -75,7 +58,6 @@ graph=""
 
 $setup_cmd
 
-echo $$ > $PIDFILE
 $exec_command /var/vcap/packages/guardian/bin/gdn \
 server --skip-setup \
 <% if p("garden.listen_network") == "tcp" %> \

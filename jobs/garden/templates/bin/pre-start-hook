@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+source /var/vcap/jobs/garden/bin/envs
+source /var/vcap/packages/greenskeeper/bin/system-preparation
+
+permit_device_control
+create_loop_devices 256
+
+chmod u+s /var/vcap/packages/grootfs/bin/tardis
+
+if ! echo madvise > /sys/kernel/mm/transparent_hugepage/enabled ; then
+  echo "Could not disable automatic transparent hugepage allocation. This is normal in bosh lite."
+fi
+
+echo 1 > /proc/sys/kernel/dmesg_restrict
+
+ulimit -n 65536
+echo 4194304 > /proc/sys/kernel/pid_max
+ulimit -u unlimited
