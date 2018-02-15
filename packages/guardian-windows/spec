@@ -125,11 +125,8 @@ files:
   - github.com/containerd/containerd/vendor/github.com/opencontainers/image-spec/identity/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/opencontainers/image-spec/specs-go/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/opencontainers/image-spec/specs-go/v1/*.go # gosub
-  - github.com/containerd/containerd/vendor/github.com/opencontainers/runtime-spec/specs-go/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/pkg/errors/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/sirupsen/logrus/*.go # gosub
-  - github.com/containerd/containerd/vendor/golang.org/x/net/context/*.go # gosub
-  - github.com/containerd/containerd/vendor/golang.org/x/net/context/ctxhttp/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/http2/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/http2/hpack/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/idna/*.go # gosub
@@ -193,3 +190,5 @@ files:
   - github.com/tedsuo/ifrit/sigmon/*.go # gosub
   - github.com/tedsuo/rata/*.go # gosub
   - github.com/tscolari/lagregator/*.go # gosub
+  - golang.org/x/net/context/*.go # gosub
+  - golang.org/x/net/context/ctxhttp/*.go # gosub
