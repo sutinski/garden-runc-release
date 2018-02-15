@@ -200,3 +200,6 @@
 	path = src/github.com/mitchellh/go-ps
 	url = https://github.com/mitchellh/go-ps
 	branch = master
+[submodule "src/github.com/containerd/containerd"]
+	path = src/github.com/containerd/containerd
+	url = https://github.com/containerd/containerd.git
