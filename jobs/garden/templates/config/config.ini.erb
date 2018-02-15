@@ -43,6 +43,11 @@
   nstar-bin = /var/vcap/packages/guardian/bin/nstar
   tar-bin = /var/vcap/packages/tar/tar
 
+; containerd
+<% if_p("garden.containerd_socket") do |containerd_socket| -%>
+  containerd-socket = <%= containerd_socket %>
+<% end -%>
+
 ; containers
   default-grace-time = <%= p("garden.default_container_grace_time") %>
 <% if p("garden.destroy_containers_on_start") -%>

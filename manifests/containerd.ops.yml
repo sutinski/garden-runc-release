@@ -3,3 +3,7 @@
   value:
     name: containerd
     release: garden-runc
+
+- type: replace
+  path: /instance_groups/name=garden/jobs/name=garden/properties/garden/containerd_socket?
+  value: /var/vcap/sys/run/containerd/containerd.sock

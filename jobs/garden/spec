@@ -177,6 +177,9 @@ properties:
     description: A boolean stating whether or not to cleanup process state after waiting for it. If set a process can be waited for only once.
     default: false
 
+  garden.containerd_socket:
+    description: containerd socket
+
   grootfs.driver:
     description: "To be deprecated: Filesystem driver to use. Only supported option is overlay-xfs."
     default: overlay-xfs
