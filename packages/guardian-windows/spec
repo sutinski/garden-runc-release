@@ -87,6 +87,7 @@ files:
   - github.com/containerd/containerd/cio/*.go # gosub
   - github.com/containerd/containerd/containers/*.go # gosub
   - github.com/containerd/containerd/content/*.go # gosub
+  - github.com/containerd/containerd/defaults/*.go # gosub
   - github.com/containerd/containerd/dialer/*.go # gosub
   - github.com/containerd/containerd/diff/*.go # gosub
   - github.com/containerd/containerd/errdefs/*.go # gosub
@@ -111,6 +112,7 @@ files:
   - github.com/containerd/containerd/rootfs/*.go # gosub
   - github.com/containerd/containerd/snapshots/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/Microsoft/go-winio/*.go # gosub
+  - github.com/containerd/containerd/vendor/github.com/Microsoft/hcsshim/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/containerd/typeurl/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/docker/go-events/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/gogo/protobuf/proto/*.go # gosub
@@ -127,6 +129,8 @@ files:
   - github.com/containerd/containerd/vendor/github.com/opencontainers/image-spec/specs-go/v1/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/pkg/errors/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/sirupsen/logrus/*.go # gosub
+  - github.com/containerd/containerd/vendor/golang.org/x/net/context/*.go # gosub
+  - github.com/containerd/containerd/vendor/golang.org/x/net/context/ctxhttp/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/http2/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/http2/hpack/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/idna/*.go # gosub
@@ -190,5 +194,3 @@ files:
   - github.com/tedsuo/ifrit/sigmon/*.go # gosub
   - github.com/tedsuo/rata/*.go # gosub
   - github.com/tscolari/lagregator/*.go # gosub
-  - golang.org/x/net/context/*.go # gosub
-  - golang.org/x/net/context/ctxhttp/*.go # gosub

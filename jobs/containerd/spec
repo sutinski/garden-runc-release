@@ -3,6 +3,7 @@ name: containerd
 
 packages:
 - containerd
+- libseccomp
 
 templates:
   bin/containerd_ctl.erb: bin/containerd_ctl

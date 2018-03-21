@@ -108,13 +108,13 @@ files:
   - github.com/containerd/containerd/cio/*.go # gosub
   - github.com/containerd/containerd/containers/*.go # gosub
   - github.com/containerd/containerd/content/*.go # gosub
+  - github.com/containerd/containerd/defaults/*.go # gosub
   - github.com/containerd/containerd/dialer/*.go # gosub
   - github.com/containerd/containerd/diff/*.go # gosub
   - github.com/containerd/containerd/errdefs/*.go # gosub
   - github.com/containerd/containerd/events/*.go # gosub
   - github.com/containerd/containerd/events/exchange/*.go # gosub
   - github.com/containerd/containerd/filters/*.go # gosub
-  - github.com/containerd/containerd/fs/*.go # gosub
   - github.com/containerd/containerd/identifiers/*.go # gosub
   - github.com/containerd/containerd/images/*.go # gosub
   - github.com/containerd/containerd/leases/*.go # gosub
@@ -132,7 +132,7 @@ files:
   - github.com/containerd/containerd/remotes/docker/schema1/*.go # gosub
   - github.com/containerd/containerd/rootfs/*.go # gosub
   - github.com/containerd/containerd/snapshots/*.go # gosub
-  - github.com/containerd/containerd/sys/*.go # gosub
+  - github.com/containerd/containerd/vendor/github.com/containerd/continuity/fs/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/containerd/continuity/sysx/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/containerd/fifo/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/containerd/typeurl/*.go # gosub
@@ -149,10 +149,12 @@ files:
   - github.com/containerd/containerd/vendor/github.com/opencontainers/image-spec/identity/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/opencontainers/image-spec/specs-go/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/opencontainers/image-spec/specs-go/v1/*.go # gosub
-  - github.com/containerd/containerd/vendor/github.com/opencontainers/runc/libcontainer/system/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/opencontainers/runc/libcontainer/user/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/pkg/errors/*.go # gosub
   - github.com/containerd/containerd/vendor/github.com/sirupsen/logrus/*.go # gosub
+  - github.com/containerd/containerd/vendor/github.com/syndtr/gocapability/capability/*.go # gosub
+  - github.com/containerd/containerd/vendor/golang.org/x/net/context/*.go # gosub
+  - github.com/containerd/containerd/vendor/golang.org/x/net/context/ctxhttp/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/http2/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/http2/hpack/*.go # gosub
   - github.com/containerd/containerd/vendor/golang.org/x/net/idna/*.go # gosub
@@ -288,4 +290,3 @@ files:
   - github.com/vishvananda/netlink/nl/*.go # gosub
   - github.com/vishvananda/netns/*.go # gosub
   - golang.org/x/net/context/*.go # gosub
-  - golang.org/x/net/context/ctxhttp/*.go # gosub

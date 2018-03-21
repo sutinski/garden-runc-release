@@ -1,5 +1,10 @@
 ---
 name: containerd
 
+dependencies:
+- golang
+- libseccomp
+
 files:
-- containerd/containerd-1.0.2.linux-amd64.tar.gz
+- github.com/containerd/containerd/**/*
+- github.com/opencontainers/runtime-spec/**/*.go

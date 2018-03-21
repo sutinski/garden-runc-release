@@ -13,6 +13,8 @@ CONFIG_FILEPATH=/var/vcap/jobs/$JOB_NAME/config/config.toml
 export PATH=$PATH:/var/vcap/packages/containerd/bin
 export PATH=$PATH:/var/vcap/packages/runc/bin
 
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/var/vcap/packages/libseccomp/lib
+
 create_dirs() {
   mkdir -p $RUN_DIR $LOG_DIR $DATA_DIR $STATE_DIR
 }
