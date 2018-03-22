@@ -13,6 +13,7 @@ ROOTLESS_CONFIG_FILEPATH=/var/vcap/data/containerd/containerd.toml
 
 export PATH=$PATH:/var/vcap/packages/containerd/bin
 export PATH=$PATH:/var/vcap/packages/runc/bin
+export PATH="/var/vcap/packages/garden-idmapper/bin:${PATH}"
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/var/vcap/packages/libseccomp/lib
 
