@@ -8,15 +8,31 @@ LOG_DIR=/var/vcap/sys/log/$JOB_NAME
 DATA_DIR=/var/vcap/data/$JOB_NAME
 STATE_DIR=/var/vcap/store/$JOB_NAME
 PID_FILEPATH=$RUN_DIR/$JOB_NAME.pid
-CONFIG_FILEPATH=/var/vcap/jobs/$JOB_NAME/config/config.toml
+CONFIG_FILEPATH=/var/vcap/jobs/$JOB_NAME/config/containerd.toml
+ROOTLESS_CONFIG_FILEPATH=/var/vcap/data/containerd/containerd.toml
 
 export PATH=$PATH:/var/vcap/packages/containerd/bin
 export PATH=$PATH:/var/vcap/packages/runc/bin
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/var/vcap/packages/libseccomp/lib
 
+create_maximus() {
+  groupadd -g 4294967294 maximus || true
+  useradd -u 4294967294 maximus -g maximus || true
+}
+
+create_configfile() {
+  cp $CONFIG_FILEPATH $ROOTLESS_CONFIG_FILEPATH
+  chown 4294967294:4294967294 $ROOTLESS_CONFIG_FILEPATH
+}
+
 create_dirs() {
   mkdir -p $RUN_DIR $LOG_DIR $DATA_DIR $STATE_DIR
+  chown 4294967294:4294967294 $RUN_DIR $LOG_DIR $DATA_DIR $STATE_DIR
+
+  mkdir -p /run/containerd
+  chmod 700 /run/containerd
+  chown 4294967294:4294967294 /run/containerd
 }
 
 write_pidfile() {
@@ -28,6 +44,13 @@ start_containerd() {
   exec 1>> $LOG_DIR/containerd.stdout.log
   exec 2>> $LOG_DIR/containerd.stderr.log
   exec containerd -c $CONFIG_FILEPATH
+}
+
+start_containerd_rootless() {
+  log "starting containerd"
+  exec 1>> $LOG_DIR/containerd.stdout.log
+  exec 2>> $LOG_DIR/containerd.stderr.log
+  exec chpst -u maximus:maximus containerd -c $ROOTLESS_CONFIG_FILEPATH
 }
 
 stop_containerd() {
@@ -49,8 +72,11 @@ log() {
 case $1 in
   start)
     create_dirs
+    create_maximus
+    create_configfile
     write_pidfile
-    start_containerd
+#    start_containerd
+    start_containerd_rootless
   ;;
 
   stop)
