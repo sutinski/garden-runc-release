@@ -17,6 +17,8 @@ export PATH="/var/vcap/packages/garden-idmapper/bin:${PATH}"
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/var/vcap/packages/libseccomp/lib
 
+export XDG_RUNTIME_DIR=/var/run/user/maximus
+
 create_maximus() {
   groupadd -g 4294967294 maximus || true
   useradd -u 4294967294 maximus -g maximus || true
@@ -34,6 +36,10 @@ create_dirs() {
   mkdir -p /run/containerd
   chmod 700 /run/containerd
   chown 4294967294:4294967294 /run/containerd
+
+  mkdir -p $XDG_RUNTIME_DIR
+  chmod 700 $XDG_RUNTIME_DIR
+  chown maximus:maximus $XDG_RUNTIME_DIR
 }
 
 write_pidfile() {
@@ -72,8 +78,8 @@ log() {
 
 case $1 in
   start)
-    create_dirs
     create_maximus
+    create_dirs
     create_configfile
     write_pidfile
 #    start_containerd
